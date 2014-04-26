@@ -4,6 +4,7 @@ namespace Acl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Stdlib\Hydrator;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 /**
  * @ORM\Entity
@@ -54,7 +55,10 @@ class Privilege
     
     public function __construct($options = array())
     {
-        (new Hydrator\ClassMethods)->hydrate($options, $this);
+        $hydrator = new ClassMethods();
+        $hydrator->hydrate($options, $this);
+        
+       // (new Hydrator\ClassMethods)->hydrate($options, $this);
         $this->createdAt = new \DateTime("now");
         $this->updatedAt = new \DateTime("now");
     }

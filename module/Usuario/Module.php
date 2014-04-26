@@ -53,12 +53,14 @@ class Module
     public function validaAuth($e)
     {
         $auth = new AuthenticationService;
-        $auth->setStorage(new SessionStorage('Usuario'));
+        $auth->setStorage(new SessionStorage("Usuario"));
         $controller = $e->getTarget();
         $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
         //echo $matchedRoute; die;
         
-        if(!$auth->hasIdentity() and ($matchedRoute == "usuario-admin" OR $matchedRoute == "usuario-admin/paginator"))
+        if(!$auth->hasIdentity() and (  $matchedRoute == "usuario-admin" OR 
+                                        $matchedRoute == "usuario-admin/paginator" OR 
+                                        $matchedRoute == "home"))
             return $controller->redirect()->toRoute("usuario-auth");
     }
     
@@ -72,8 +74,8 @@ class Module
                 
                 $transport = new SmtpTransport;
                 $options = new SmtpOptions($config['mail']);
-                $transport->setOptions($options);
                 
+                $transport->setOptions($options);
                 return $transport;
               },
               'Usuario\Service\User' => function($sm) {

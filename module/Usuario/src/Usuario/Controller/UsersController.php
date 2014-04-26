@@ -3,33 +3,31 @@
 namespace Usuario\Controller;
 
 use Zend\View\Model\ViewModel;
+use Base\Controller\CrudController;
 
-class UsersController extends CrudController 
-{
+class UsersController extends CrudController{
 
     public function __construct() 
     {
-        $this->entity = "Usuario\Entity\User";
+        $this->entity = "Usuario\Entity\UserEntity";
         $this->form = "Usuario\Form\User";
         $this->service = "Usuario\Service\User";
-        $this->controller = "users";
-        $this->route = "usuario-admin";
+        $this->controller = "Users";
+        $this->route = "usuario-admin/paginator";
     }
  
-     public function editAction()
-    {
+     public function editAction(){
         $form = new $this->form();
         $request = $this->getRequest();
         
         $repository = $this->getEm()->getRepository($this->entity);
         $entity = $repository->find($this->params()->fromRoute('id',0));
         
-        if($this->params()->fromRoute('id',0))
-        {
+        if($this->params()->fromRoute('id',0)){
             $array = $entity->toArray();
             unset($array['password']);
             $form->setData($array);
-        }
+            }
             
         
         if($request->isPost())

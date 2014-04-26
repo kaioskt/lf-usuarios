@@ -4,6 +4,7 @@ namespace Usuario\Service;
 
 use Doctrine\ORM\EntityManager;
 use Zend\Stdlib\Hydrator;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 abstract class AbstractService 
 {
@@ -24,7 +25,9 @@ abstract class AbstractService
     public function insert(array $data)
     {
         $entity = new $this->entity($data);
-        (new Hydrator\ClassMethods())->hydrate($data, $entity);
+        $hydrator = new Hydrator\ClassMethods;
+        $hydrator->hydrate($data, $entity);
+       // (new Hydrator\ClassMethods())->hydrate($data, $entity);
         $this->em->persist($entity);
         $this->em->flush();
         return $entity;
@@ -33,7 +36,9 @@ abstract class AbstractService
     public function update(array $data)
     {
         $entity = $this->em->getReference($this->entity, $data['id']);
-        (new Hydrator\ClassMethods())->hydrate($data, $entity);
+        $hydrator = new ClassMethods();
+        $hydrator->hydrate($data, $entity);
+        //(new Hydrator\ClassMethods())->hydrate($data, $entity);
         
         $this->em->persist($entity);
         $this->em->flush();

@@ -5,8 +5,8 @@ namespace Usuario\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Math\Rand,
 	Zend\Crypt\Key\Derivation\Pbkdf2;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
-use Zend\Stdlib\Hydrator;
 
 /**
  * SonuserUsers
@@ -16,7 +16,7 @@ use Zend\Stdlib\Hydrator;
  * @ORM\HasLifecycleCallbacks
   * @ORM\Entity(repositoryClass="Usuario\Entity\UserRepository")
  */
-class User{
+class UserEntity{
     /**
      * @var integer
      *
@@ -86,10 +86,8 @@ class User{
     	
     	
     	
-    	$hydrator = new Hydrator\ClassMethods;
+    	$hydrator = new ClassMethods();
     	$hydrator->hydrate($options, $this);
-    	
-    	
     	//(new Hydrator\ClassMethods)->hydrate($options,$this);
     	
     	//pega a data atual
@@ -205,9 +203,11 @@ class User{
 	    $this->createdAt = new \DateTime("now");
 	    }
 	    
-	    public function toArray()
-	    {
-	    	return (new Hydrator\ClassMethods())->extract($this);
+	    public function toArray(){
+	        
+	        $hydrator = new ClassMethods();
+	        return $hydrator->extract($this);
+	    //return (new Hydrator\ClassMethods())->extract($this);
 	    }
  
 }

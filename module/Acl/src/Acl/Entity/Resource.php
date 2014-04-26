@@ -3,7 +3,7 @@
 namespace Acl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Stdlib\Hydrator;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 /**
  * @ORM\Entity
@@ -45,7 +45,10 @@ class Resource
     
     public function __construct($options = array())
     {
-        (new Hydrator\ClassMethods)->hydrate($options, $this);
+        $hydrator = new ClassMethods();
+        $hydrator->hydrate($options, $this);
+        
+        //(new Hydrator\ClassMethods)->hydrate($options, $this);
         $this->createdAt = new \DateTime("now");
         $this->updatedAt = new \DateTime("now");
     }
@@ -93,9 +96,10 @@ class Resource
         return $this;
     }
     
-    public function toArray()
-    {
-        return (new Hydrator\ClassMethods)->extract($this);
+    public function toArray(){
+        $hydrator = new ClassMethods();
+        return $hydrator->extract($this);
+       // return (new Hydrator\ClassMethods)->extract($this);
     }
     
 }

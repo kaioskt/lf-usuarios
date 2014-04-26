@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Zend\Stdlib\Hydrator;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Base\Mail\Mail;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 class User extends AbstractService
 {
@@ -17,25 +18,22 @@ class User extends AbstractService
     {
         parent::__construct($em);
         
-        $this->entity = "Usuario\Entity\User";
+        $this->entity = "Usuario\Entity\UserEntity";
         $this->transport = $transport;
         $this->view = $view;
     }
     
     public function insert(array $data) {
         $entity = parent::insert($data);
-        
         $dataEmail = array('nome'=>$data['nome'],'activationKey'=>$entity->getActivationKey());
-        
-        if($entity)
-        {
-            $mail = new Mail($this->transport, $this->view, 'add-user');
+        if($entity){
+           
+            $mail = new Mail($this->transport, $this->view, 'add-user');  
+            
             $mail->setSubject('Confirmação de cadastro')
                     ->setTo($data['email'])
                     ->setData($dataEmail)
-                    ->prepare()
-                    ->send();
-            
+                    ->prepare();
             return $entity;
         }
     }
@@ -64,7 +62,10 @@ class User extends AbstractService
         if(empty($data['password']))
             unset($data['password']);
         
-        (new Hydrator\ClassMethods())->hydrate($data, $entity);
+        $hydrator = new ClassMethods();
+        $hydrator->hydrate($data, $entity);
+        
+        //(new Hydrator\ClassMethods())->hydrate($data, $entity);
         
         $this->em->persist($entity);
         $this->em->flush();

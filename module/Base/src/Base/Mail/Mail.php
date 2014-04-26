@@ -62,11 +62,11 @@ class Mail
     {
         $html = new MimePart($this->renderView($this->page, $this->data));
         $html->type = "text/html";
-        
+       
         $body = new MimeMessage();
         $body->setParts(array($html));
         $this->body = $body;
-        
+
         $config = $this->transport->getOptions()->toArray();
         
         $this->message = new Message;
@@ -81,6 +81,7 @@ class Mail
     public function send()
     {
         $this->transport->send($this->message);
+       // print_r($this->message); exit;
     }
     
 }

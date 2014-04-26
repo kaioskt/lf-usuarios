@@ -4,21 +4,30 @@ namespace Usuario;
 return array(
 		'controllers' => array(
 				'invokables' => array(
-						'Usuario\Controller\Index' => 'Usuario\Controller\IndexController',
-						'Usuario\Controller\Users' => 'Usuario\Controller\UsersController',
-						'Usuario\Controller\Auth' => 'Usuario\Controller\AuthController',
+						'Index' => 'Usuario\Controller\IndexController',
+						'Users' => 'Usuario\Controller\UsersController',
+						'Auth' => 'Usuario\Controller\AuthController',
 						
 					)
 		),
 		'router' => array(
 				'routes' => array(
+				    'home' => array(
+				    		'type' => 'Literal',
+				    		'options' => array(
+				    				'route' => '/',
+				    				'defaults' => array(
+				    						'controller' => 'Users',
+				    						'action' => 'index',
+				    				)
+				    		)
+				    ),
 						
 						'usuario-register' => array(
 								'type' => 'Literal',
 								'options' => array(
 										'route' => '/register',
 										'defaults' => array(
-												'__NAMESPACE__' => 'Usuario\Controller',
 												'controller' => 'Index',
 												'action' => 'register',
 										)
@@ -30,7 +39,7 @@ return array(
 								'options' => array(
 										'route' => '/register/activate[/:key]',
 										'defaults' => array(
-												'controller' => 'Usuario\Controller\Index',
+												'controller' => 'Index',
 												'action' => 'activate'
 										)
 								)
@@ -41,7 +50,6 @@ return array(
 								'options' => array(
 										'route'=>'/auth',
 										'defaults' => array(
-												'__NAMESPACE__' => 'Usuario\Controller',
 												'controller' => 'Auth',
 												'action' => 'index'
 										)
@@ -52,24 +60,16 @@ return array(
 								'options' => array(
 										'route'=>'/auth/logout',
 										'defaults' => array(
-												'__NAMESPACE__' => 'Usuario\Controller',
 												'controller' => 'Auth',
 												'action' => 'logout'
 										)
 								)
 						),
-						
-						
-						
-						
-						
-						
 						'usuario-admin' => array(
 								'type' => 'Literal',
 								'options' => array(
 										'route' => '/admin',
 										'defaults' => array(
-												'__NAMESPACE__' => 'Usuario\Controller',
 												'controller' => 'Users',
 												'action' => 'index'
 										)
@@ -86,8 +86,8 @@ return array(
 																'id' => '\d+'
 														),
 														'defaults' => array(
-																'__NAMESPACE__' => 'Usuario\Controller',
-																'controller' => 'users'
+														    'controller' => 'Users',
+														    'action' => 'index'
 														)
 												)
 										),
@@ -101,8 +101,6 @@ return array(
 																'page' => '\d+'
 														),
 														'defaults' => array(
-																'__NAMESPACE__' => 'Usuario\Controller',
-																'controller' => 'users'
 														)
 												)
 										)

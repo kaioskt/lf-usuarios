@@ -28,7 +28,7 @@ class AuthController extends AbstractActionController
                 $data = $request->getPost()->toArray();
                 
                 // Criando Storage para gravar sessão da authtenticação
-                $sessionStorage = new SessionStorage('Usuario');
+                $sessionStorage = new SessionStorage("Usuario");
                 
                 $auth = new AuthenticationService;
                 $auth->setStorage($sessionStorage); // Definindo o SessionStorage para a auth

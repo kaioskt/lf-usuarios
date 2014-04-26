@@ -4,21 +4,19 @@ namespace Acl;
 return array(
 		'controllers' => array(
 				'invokables' => array(
-						'Acl\Controller\Roles' => 'Acl\Controller\RolesController',
-						'Acl\Controller\Resources' => 'Acl\Controller\ResourcesController',
-						'Acl\Controller\Privileges' => 'Acl\Controller\PrivilegesController',
+						'Roles' => 'Acl\Controller\RolesController',
+						'Resources' => 'Acl\Controller\ResourcesController',
+						'Privileges' => 'Acl\Controller\PrivilegesController',
 						
 					)
 		),
 		'router' => array(
 				'routes' => array(
-						
 						'sonacl-admin' => array(
 								'type' => 'Literal',
 								'options' => array(
 										'route' => '/admin/acl',
 										'defaults' => array(
-												'__NAMESPACE__' => 'Acl\Controller',
 												'controller' => 'Roles',
 												'action' => 'index'
 										)
@@ -35,8 +33,6 @@ return array(
 																'id' => '\d+'
 														),
 														'defaults' => array(
-																'__NAMESPACE__' => 'Acl\Controller',
-																'controller' => 'Roles'
 														)
 												)
 										),
@@ -50,8 +46,6 @@ return array(
 																'page' => '\d+'
 														),
 														'defaults' => array(
-																'__NAMESPACE__' => 'Acl\Controller',
-																'controller' => 'Roles'
 														)
 												)
 										)
